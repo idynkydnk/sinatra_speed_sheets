@@ -2,15 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="utf8">
-  <title><%= @title + ' | Recall' %></title>
+  <title><%= 'SpeedSheets' %></title>
   <link href="/reset.css" rel="stylesheet">
   <link href="/style.css" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/black-tie/jquery-ui.css" />
+  <script src="/speed_sheets.js"></script>
+
+
 </head>
 <body>
   <header>
     <hgroup>
-      <h1><a href="/">Recall</a></h1>
-      <h2>'cause you're too busy to remember</h2>
+      <h1><a href="/">SpeedSheets</a></h1>
     </hgroup>
   </header>
  
@@ -18,8 +23,5 @@
     <%= yield %>
   </div>
  
-  <footer>
-    <p><small>An app for <a href="http://net.tutsplus.com">Nettuts+</a>.</small></p>
-  </footer>
 </body>
 </html>
