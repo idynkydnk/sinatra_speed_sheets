@@ -1,9 +1,10 @@
 require 'sinatra'
 require 'data_mapper'
+require 'google_drive'
 
 DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/recall.db")
  
-class Note
+class Game
   include DataMapper::Resource
   property :id, Serial
   property :location, Text, :required => true
@@ -19,13 +20,13 @@ end
 DataMapper.finalize.auto_upgrade!
 
 get '/' do
-  @notes = Note.all :order => :id.desc
+  @games = Game.all :order => :id.desc
   @title = 'All Notes'
   erb :home
 end
 
 post '/' do
-  n = Note.new
+  n = Game.new
   n.location = params[:location]
   n.winner1 = params[:winner1]
   n.winner2 = params[:winner2]
@@ -34,6 +35,7 @@ post '/' do
   n.created_at = Time.now
   n.updated_at = Time.now
   n.save
+  add_game_to_google_sheets(n)
   redirect '/'
 end
 
@@ -65,9 +67,25 @@ delete '/:id' do
 end
 
 get '/:id/complete' do
-  n = Note.get params[:id]
+  n = Game.get params[:id]
   n.complete = n.complete ? 0 : 1 # flip it
   n.updated_at = Time.now
   n.save
   redirect '/'
+end
+
+def add_game_to_google_sheets(game)
+  puts "started the google sheets method!"
+  session = GoogleDrive::Session.from_config("config.json")
+  sheet = session.spreadsheet_by_key("1gvdN0KvpSOz7hV_OKoJKBerwynMKboBnQvHRsbcc4sQ").worksheets[8]
+  next_empty_row = sheet.num_rows + 1
+  new_time = game.created_at.strftime("%m/%d/%y")
+
+  sheet[next_empty_row, 1] = new_time
+  sheet[next_empty_row, 2] = game.location
+  sheet[next_empty_row, 3] = game.winner1
+  sheet[next_empty_row, 4] = game.winner2
+  sheet[next_empty_row, 5] = game.loser1
+  sheet[next_empty_row, 6] = game.loser2
+  sheet.save
 end

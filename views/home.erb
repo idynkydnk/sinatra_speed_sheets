@@ -9,16 +9,16 @@
   </form>
 </section>
  
-<% @notes.each do |note| %>
-  <article <%= 'class="complete"' if note.complete %>>
+<% @games.each do |game| %>
+  <article <%= 'class="complete"' if game.complete %>>
     <p>
-      <%= note.location %>
-      <span><a href="/<%= note.id %>">[edit]</a></span>
+      <%= game.location %>
+      <span><a href="/<%= game.id %>">[edit]</a></span>
     </p>
     <p class="links">
-      <a href="/<%= note.id %>/complete">&#8623;</a>
+      <a href="/<%= game.id %>/complete">&#8623;</a>
     </p>
-    <p class="meta">Created: <%= note.created_at %></p>
+    <p class="meta">Created: <%= game.created_at %></p>
   </article>
 <% end %>
 
