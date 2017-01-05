@@ -6,7 +6,11 @@ DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/recall.db")
 class Note
   include DataMapper::Resource
   property :id, Serial
-  property :content, Text, :required => true
+  property :location, Text, :required => true
+  property :winner1, Text, :required => true
+  property :winner2, Text, :required => true
+  property :loser1, Text, :required => true
+  property :loser2, Text, :required => true
   property :complete, Boolean, :required => true, :default => false
   property :created_at, DateTime
   property :updated_at, DateTime
@@ -22,7 +26,11 @@ end
 
 post '/' do
   n = Note.new
-  n.content = params[:content]
+  n.location = params[:location]
+  n.winner1 = params[:winner1]
+  n.winner2 = params[:winner2]
+  n.loser1 = params[:loser1]
+  n.loser2 = params[:loser2]
   n.created_at = Time.now
   n.updated_at = Time.now
   n.save

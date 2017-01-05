@@ -1,14 +1,18 @@
 <section id="add">
   <form action="/" method="post">
-    <textarea name="content" placeholder="Your note&hellip;"></textarea>
-    <input type="submit" value="Take Note!">
+    <textarea name="location" placeholder="Your location&hellip;"></textarea>
+    <textarea name="winner1" placeholder="Winner first player&hellip;"></textarea>
+    <textarea name="winner2" placeholder="Winner second player&hellip;"></textarea>
+    <textarea name="loser1" placeholder="Loser first player&hellip;"></textarea>
+    <textarea name="loser2" placeholder="Loser second player&hellip;"></textarea>
+    <input type="submit" value="Submit!">
   </form>
 </section>
  
 <% @notes.each do |note| %>
   <article <%= 'class="complete"' if note.complete %>>
     <p>
-      <%= note.content %>
+      <%= note.location %>
       <span><a href="/<%= note.id %>">[edit]</a></span>
     </p>
     <p class="links">
@@ -17,3 +21,4 @@
     <p class="meta">Created: <%= note.created_at %></p>
   </article>
 <% end %>
+
