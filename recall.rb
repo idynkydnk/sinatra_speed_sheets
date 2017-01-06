@@ -41,25 +41,22 @@ post '/' do
   n.winner2 = params[:winner2]
   n.loser1 = params[:loser1]
   n.loser2 = params[:loser2]
-  time_now = Time.now
-  time_now = time_now.strftime("%m/%d/%y")
-  puts time_now
-  n.created_at = time_now
-  n.updated_at = time_now
+  n.created_at = Time.now
+  n.updated_at = Time.now
   n.save
   add_game_to_google_sheets(n)
   redirect '/'
 end
 
 get '/:id' do
-  @note = Game.get params[:id]
-  @title = "Edit note ##{params[:id]}"
+  @game = Game.get params[:id]
+  @title = "Edit game ##{params[:id]}"
   erb :edit
 end
 
 put '/:id' do
   n = Game.get params[:id]
-  n.content = params[:content]
+  n.location = params[:location]
   n.complete = params[:complete] ? 1 : 0
   n.updated_at = Time.now
   n.save
@@ -67,13 +64,13 @@ put '/:id' do
 end
 
 get '/:id/delete' do
-  @note = Note.get params[:id]
-  @title = "Confirm deletion of note ##{params[:id]}"
+  @game = game.get params[:id]
+  @title = "Confirm deletion of game ##{params[:id]}"
   erb :delete
 end
 
 delete '/:id' do
-  n = Note.get params[:id]
+  n = game.get params[:id]
   n.destroy
   redirect '/'
 end
@@ -91,9 +88,8 @@ def add_game_to_google_sheets(game)
   session = GoogleDrive::Session.from_config("config.json")
   sheet = session.spreadsheet_by_key("1gvdN0KvpSOz7hV_OKoJKBerwynMKboBnQvHRsbcc4sQ").worksheets[8]
   next_empty_row = sheet.num_rows + 1
-  puts game.created_at
-
-  sheet[next_empty_row, 1] = game.created_at
+  time_format = game.created_at.strftime("%m/%d/%y")
+  sheet[next_empty_row, 1] = time_format
   sheet[next_empty_row, 2] = game.location
   sheet[next_empty_row, 3] = game.winner1
   sheet[next_empty_row, 4] = game.winner2

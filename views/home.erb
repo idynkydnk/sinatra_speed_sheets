@@ -1,10 +1,15 @@
 <section id="add">
   <form action="/" method="post">
-    <textarea class='autocomplete' name="location" placeholder="Your location&hellip;" autofocus></textarea>
-    <textarea class='autocomplete' name="winner1" placeholder="Winner first player&hellip;"></textarea>
-    <textarea class='autocomplete' name="winner2" placeholder="Winner second player&hellip;"></textarea>
-    <textarea class='autocomplete' name="loser1" placeholder="Loser first player&hellip;"></textarea>
-    <textarea class='autocomplete' name="loser2" placeholder="Loser second player&hellip;"></textarea>
+    <input class='awesomplete' data-list="Kyle Thomson, Clearwater Beach, Aaron Plumb, Troy Nowak, Dan Ferris" data-minchars="1" data-autofirst="true" name="location" placeholder="Your location&hellip;" autofocus></input>
+    <br>
+    <input class='awesomplete' data-list="Kyle Thomson, Clearwater Beach, Aaron Plumb, Troy Nowak, Dan Ferris" data-minchars="1" data-autofirst="true" name="location" placeholder="Winner first player&hellip;"></input>
+    <br>
+    <input class='awesomplete' data-list="Kyle Thomson, Clearwater Beach, Aaron Plumb, Troy Nowak, Dan Ferris" data-minchars="1" data-autofirst="true" name="location" placeholder="Winner second player&hellip;"></input>
+    <br>
+    <input class='awesomplete' data-list="Kyle Thomson, Clearwater Beach, Aaron Plumb, Troy Nowak, Dan Ferris" data-minchars="1" data-autofirst="true" name="location" placeholder="Loser first player&hellip;"></input>
+    <br>
+    <input class='awesomplete' data-list="Kyle Thomson, Clearwater Beach, Aaron Plumb, Troy Nowak, Dan Ferris" data-minchars="1" data-autofirst="true" name="location" placeholder="Loser second player&hellip;"></input>
+    <br>
     <input type="submit" value="Submit!">
   </form>
 </section>
@@ -12,13 +17,10 @@
 <% @games.each do |game| %>
   <article>
     <p>
-      On <%= game.created_at %> <%= game.location %>
+    <%= game.winner1 %> and <%= game.winner2 %> beat <%= game.loser1 %> and 
+      <%= game.loser2 %> on <%= game.created_at.strftime("%m/%d/%y") %> in  <%= game.location %>
       <span><a href="/<%= game.id %>">[edit]</a></span>
     </p>
-    <p class="links">
-      <a href="/<%= game.id %>/complete">&#8623;</a>
-    </p>
-    <p class="meta">Created: <%= game.created_at %></p>
   </article>
 <% end %>
 
