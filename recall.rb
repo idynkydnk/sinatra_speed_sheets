@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'data_mapper'
 require 'google_drive'
+require 'json'
 
 DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/recall.db")
  
@@ -19,9 +20,17 @@ end
  
 DataMapper.finalize.auto_upgrade!
 
+get '/autocomplete' do
+
+  {
+      "options" => ["Troy Nowak","Clearwater Beach","Kyle Thomson","Kurt Frahn","Aaron Plumb","Dustin Rambo","Denis Buznea","Shaun Morissey","Alex Rodriguez","Dan Ferris","Brian Bowie","Chad Mowrey"]
+
+  }.to_json
+end
+
 get '/' do
   @games = Game.all :order => :id.desc
-  @title = 'All Notes'
+  @title = 'All Games'
   erb :home
 end
 
@@ -32,8 +41,11 @@ post '/' do
   n.winner2 = params[:winner2]
   n.loser1 = params[:loser1]
   n.loser2 = params[:loser2]
-  n.created_at = Time.now
-  n.updated_at = Time.now
+  time_now = Time.now
+  time_now = time_now.strftime("%m/%d/%y")
+  puts time_now
+  n.created_at = time_now
+  n.updated_at = time_now
   n.save
   add_game_to_google_sheets(n)
   redirect '/'
@@ -79,9 +91,9 @@ def add_game_to_google_sheets(game)
   session = GoogleDrive::Session.from_config("config.json")
   sheet = session.spreadsheet_by_key("1gvdN0KvpSOz7hV_OKoJKBerwynMKboBnQvHRsbcc4sQ").worksheets[8]
   next_empty_row = sheet.num_rows + 1
-  new_time = game.created_at.strftime("%m/%d/%y")
+  puts game.created_at
 
-  sheet[next_empty_row, 1] = new_time
+  sheet[next_empty_row, 1] = game.created_at
   sheet[next_empty_row, 2] = game.location
   sheet[next_empty_row, 3] = game.winner1
   sheet[next_empty_row, 4] = game.winner2

@@ -1,18 +1,18 @@
 <section id="add">
   <form action="/" method="post">
-    <textarea name="location" id="players" placeholder="Your location&hellip;" autofocus></textarea>
-    <textarea name="winner1" placeholder="Winner first player&hellip;"></textarea>
-    <textarea name="winner2" placeholder="Winner second player&hellip;"></textarea>
-    <textarea name="loser1" placeholder="Loser first player&hellip;"></textarea>
-    <textarea name="loser2" placeholder="Loser second player&hellip;"></textarea>
+    <textarea class='autocomplete' name="location" placeholder="Your location&hellip;" autofocus></textarea>
+    <textarea class='autocomplete' name="winner1" placeholder="Winner first player&hellip;"></textarea>
+    <textarea class='autocomplete' name="winner2" placeholder="Winner second player&hellip;"></textarea>
+    <textarea class='autocomplete' name="loser1" placeholder="Loser first player&hellip;"></textarea>
+    <textarea class='autocomplete' name="loser2" placeholder="Loser second player&hellip;"></textarea>
     <input type="submit" value="Submit!">
   </form>
 </section>
  
 <% @games.each do |game| %>
-  <article <%= 'class="complete"' if game.complete %>>
+  <article>
     <p>
-      <%= game.location %>
+      On <%= game.created_at %> <%= game.location %>
       <span><a href="/<%= game.id %>">[edit]</a></span>
     </p>
     <p class="links">
