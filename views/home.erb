@@ -1,19 +1,33 @@
 <section id="add">
   <form action="/" method="post">
-    <input autofocus class='awesomplete' data-list="Kyle Thomson, Clearwater Beach, Aaron Plumb, Troy Nowak, Dan Ferris" data-minchars="1" data-autofirst="true" name="location" placeholder="Your location&hellip;" ></input>
+    <input id="auto-location" autofocus name="location" placeholder="Your location&hellip;" ></input>
     <br>
-    <input class='awesomplete' data-list="Kyle Thomson, Clearwater Beach, Aaron Plumb, Troy Nowak, Dan Ferris" data-minchars="1" data-autofirst="true" name="winner1" placeholder="Winner first player&hellip;"></input>
     <br>
-    <input class='awesomplete' data-list="Kyle Thomson, Clearwater Beach, Aaron Plumb, Troy Nowak, Dan Ferris" data-minchars="1" data-autofirst="true" name="winner2" placeholder="Winner second player&hellip;"></input>
     <br>
-    <input class='awesomplete' data-list="Kyle Thomson, Clearwater Beach, Aaron Plumb, Troy Nowak, Dan Ferris" data-minchars="1" data-autofirst="true" name="loser1" placeholder="Loser first player&hellip;"></input>
+    <input id="auto-winner1" name="winner1" placeholder="Winner first player&hellip;"></input>
     <br>
-    <input class='awesomplete' data-list="Kyle Thomson, Clearwater Beach, Aaron Plumb, Troy Nowak, Dan Ferris" data-minchars="1" data-autofirst="true" name="loser2" placeholder="Loser second player&hellip;"></input>
+    <br>
+    <br>
+    <input id="auto-winner2" name="winner2" placeholder="Winner second player&hellip;"></input>
+    <br>
+    <br>
+    <br>
+    <input id="auto-loser1" name="loser1" placeholder="Loser first player&hellip;"></input>
+    <br>
+    <br>
+    <br>
+    <input id="auto-loser2" name="loser2" placeholder="Loser second player&hellip;"></input>
+    <br>
+    <br>
     <br>
     <input type="submit" value="Submit!">
+  
   </form>
+
+    <script src="/js/auto-complete.js"></script> 
+
 </section>
- 
+
 <% @games.each do |game| %>
   <article>
     <p>
