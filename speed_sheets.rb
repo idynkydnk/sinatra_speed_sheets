@@ -20,18 +20,16 @@ end
  
 DataMapper.finalize.auto_upgrade!
 
-get '/autocomplete' do
-
-  {
-      "options" => ["Troy Nowak","Clearwater Beach","Kyle Thomson","Kurt Frahn","Aaron Plumb","Dustin Rambo","Denis Buznea","Shaun Morissey","Alex Rodriguez","Dan Ferris","Brian Bowie","Chad Mowrey"]
-
-  }.to_json
-end
-
 get '/' do
   @games = Game.all :order => :id.desc
   @title = 'All Games'
   erb :home
+end
+
+get '/locations' do
+  file = File.read('data/locations.json')  
+  puts file
+  return file
 end
 
 post '/' do

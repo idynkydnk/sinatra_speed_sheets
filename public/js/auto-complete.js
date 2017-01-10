@@ -227,7 +227,7 @@ var autolocation = new autoComplete({
             minChars: 0,
             source: function(term, suggest){
                 term = term.toLowerCase();
-                var choices = ['Clearwater Beach', 'Bayhead', 'North Shore', 'Undertow', 'Toasted Monkey'];
+                var choices = ['Clearwater Beach', 'Bayhead', 'Undertow', 'North Shore'];
                 var suggestions = [];
                 for (i=0;i<choices.length;i++)
                     if (~choices[i].toLowerCase().indexOf(term)) suggestions.push(choices[i]);
