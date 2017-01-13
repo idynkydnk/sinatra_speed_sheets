@@ -32,6 +32,16 @@ get '/locations' do
   return file
 end
 
+get '/winners' do
+  file = File.read('data/winners.json')
+  return file
+end
+
+get '/losers' do
+  file = File.read('data/losers.json')
+  return file
+end
+
 post '/' do
   n = Game.new
   n.location = params[:location]
@@ -41,8 +51,10 @@ post '/' do
   n.loser2 = params[:loser2]
   n.created_at = Time.now
   n.updated_at = Time.now
-  n.save
-  add_game_to_google_sheets(n)
+  if n.location != "" && n.winner1 != "" && n.winner2 != "" && n.loser1 != "" && n.loser2 != "" 
+    n.save
+    add_game_to_google_sheets(n)
+  end
   redirect '/'
 end
 
@@ -84,7 +96,7 @@ end
 def add_game_to_google_sheets(game)
   puts "started the google sheets method!"
   session = GoogleDrive::Session.from_config("config.json")
-  sheet = session.spreadsheet_by_key("1gvdN0KvpSOz7hV_OKoJKBerwynMKboBnQvHRsbcc4sQ").worksheets[8]
+  sheet = session.spreadsheet_by_key("1lI5GMwYa1ruXugvAERMJVJO4pX5RY69DCJxR4b0zDuI").worksheets[0]
   next_empty_row = sheet.num_rows + 1
   time_format = game.created_at.strftime("%m/%d/%y")
   sheet[next_empty_row, 1] = time_format
