@@ -268,7 +268,7 @@ var autowinner1 = new autoComplete({
   minChars: 0,
   source: function(term, suggest){
     term = term.toLowerCase();
-    var choices = ["Brian Bowie","Aaron Plumb","Kyle Thomson","Denis Buznea","Kurt Frahn","Brad Wooten"];
+    var choices = ["Brian Bowie","Aaron Plumb","Kyle Thomson","Denis Buznea","Kurt Frahn","Matt Sokolowski","Brad Wooten"];
     var suggestions = [];
     for (i=0;i<choices.length;i++)
       if (~choices[i].toLowerCase().indexOf(term)) suggestions.push(choices[i]);
@@ -283,7 +283,7 @@ var autowinner2 = new autoComplete({
   minChars: 0,
   source: function(term, suggest){
     term = term.toLowerCase();
-    var choices = ["Troy Nowak","Kyle Thomson","Denis Buznea","Nic Stojak","Mike Kuk","Brian Bowie","Kevin Legg"];
+    var choices = ["Troy Nowak","Kyle Thomson","Matt Sokolowski","Denis Buznea","Nic Stojak","Mike Kuk","Brian Bowie","Kevin Legg"];
     var suggestions = [];
     for (i=0;i<choices.length;i++)
       if (~choices[i].toLowerCase().indexOf(term)) suggestions.push(choices[i]);
@@ -296,7 +296,7 @@ var autoloser1 = new autoComplete({
   minChars: 0,
   source: function(term, suggest){
     term = term.toLowerCase();
-    var choices = ["Denis Buznea","Aaron Plumb","Kurt Frahn","Brian Bowie","Kevin Legg","Mike Kuk","Brad Wooten"]
+    var choices = ["Denis Buznea","Aaron Plumb","Kurt Frahn","Brian Bowie","Matt Sokolowski","Kevin Legg","Mike Kuk","Brad Wooten"]
 ;
     var suggestions = [];
     for (i=0;i<choices.length;i++)
@@ -310,7 +310,7 @@ var autoloser2 = new autoComplete({
   minChars: 0,
   source: function(term, suggest){
     term = term.toLowerCase();
-    var choices = ["Mike Kuk","Troy Nowak","Nic Stojak","Kyle Thomson","Kevin Legg","Brian Bowie","Kurt Frahn","Brad Wooten"];
+    var choices = ["Mike Kuk","Troy Nowak","Nic Stojak","Kyle Thomson","Kevin Legg","Matt Sokolowski","Brian Bowie","Kurt Frahn","Brad Wooten"];
     var suggestions = [];
     for (i=0;i<choices.length;i++)
       if (~choices[i].toLowerCase().indexOf(term)) suggestions.push(choices[i]);

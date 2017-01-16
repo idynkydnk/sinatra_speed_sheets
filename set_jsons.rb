@@ -7,10 +7,17 @@ module Enumerable
     sort_by { |x| [histogram[x], x] }
   end
 end
+
+def create_json_arrays(name, col, worksheet)
+  (1..worksheet.num_rows).each do |row|
+    name << worksheet[row, col]
+  end
+end
+
 session = GoogleDrive::Session.from_config("config.json")
 puts session
 
-ws = session.spreadsheet_by_key("1lI5GMwYa1ruXugvAERMJVJO4pX5RY69DCJxR4b0zDuI").worksheets[0]
+worksheet = session.spreadsheet_by_key("1lI5GMwYa1ruXugvAERMJVJO4pX5RY69DCJxR4b0zDuI").worksheets[0]
 
 winners1 = []
 winners2 = []
@@ -18,26 +25,11 @@ losers1 = []
 losers2 = []
 locations = []
 
-(1..ws.num_rows).each do |row|
-  locations << ws[row, 2]
-end
-
-(1..ws.num_rows).each do |row|
-  winners1 << ws[row, 3]
-end
-
-(1..ws.num_rows).each do |row|
-  winners2 << ws[row, 4]
-end
-
-(1..ws.num_rows).each do |row|
-  losers1 << ws[row, 5]
-end
-
-(1..ws.num_rows).each do |row|
-  losers2 << ws[row, 6]
-end
-
+create_json_arrays(locations, 2, worksheet)
+create_json_arrays(winners1, 3, worksheet)
+create_json_arrays(winners2, 4, worksheet)
+create_json_arrays(losers1, 5, worksheet)
+create_json_arrays(losers2, 6, worksheet)
 locations = locations.sort_by_frequency
 winners1 = winners1.sort_by_frequency
 winners2 = winners2.sort_by_frequency
@@ -115,7 +107,6 @@ puts sorted_losers2
 #
 #         # Reloads the worksheet to get changes by other clients.
 #         ws.reload
-puts ws
 
 File.open('./data/locations.json', 'w') do |f|
   f.puts sorted_locations.to_json
@@ -139,5 +130,4 @@ File.open('./data/losers2.json', 'w') do |f|
 end
 
 
-puts ws.num_rows
-ws.save
+worksheet.save
