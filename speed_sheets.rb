@@ -22,6 +22,7 @@ DataMapper.finalize.auto_upgrade!
 
 get '/' do
   @games = Game.all :order => :id.desc
+  update_stats
   @title = 'All Games'
   erb :home
 end
@@ -94,7 +95,7 @@ get '/:id/complete' do
 end
 
 def add_game_to_google_sheets(game)
-  puts "started the google sheets method!"
+  puts "adding a game!"
   session = GoogleDrive::Session.from_config("config.json")
   sheet = session.spreadsheet_by_key("1lI5GMwYa1ruXugvAERMJVJO4pX5RY69DCJxR4b0zDuI").worksheets[0]
   next_empty_row = sheet.num_rows + 1
@@ -106,4 +107,19 @@ def add_game_to_google_sheets(game)
   sheet[next_empty_row, 5] = game.loser1
   sheet[next_empty_row, 6] = game.loser2
   sheet.save
+end
+
+def update_stats
+  calculate_best_teams
+  @games.each do |game|
+
+  end
+end
+
+def add_all_teams_to_sheets
+  
+end
+
+def calculate_best_teams
+
 end

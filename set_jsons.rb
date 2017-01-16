@@ -1,6 +1,11 @@
 require "google_drive"
 require "json"
 
+session = GoogleDrive::Session.from_config("config.json")
+puts session
+
+worksheet = session.spreadsheet_by_key("1lI5GMwYa1ruXugvAERMJVJO4pX5RY69DCJxR4b0zDuI").worksheets[0]
+
 module Enumerable
   def sort_by_frequency
     histogram = inject(Hash.new(0)) { |hash, x| hash[x] += 1; hash}
@@ -8,16 +13,29 @@ module Enumerable
   end
 end
 
+def sort_arrays(name) 
+  i = 0
+  sorted_name = []
+  name.reverse_each do |x|
+    if sorted_name.empty?
+      sorted_name << x
+    elsif x != sorted_name[i] 
+      sorted_name << x
+      i += 1
+    end
+  end
+  return sorted_name
+end
+
+def sort_arrays_by_frequency(name)
+  name = name.sort_by_frequency
+end
+
 def create_json_arrays(name, col, worksheet)
   (1..worksheet.num_rows).each do |row|
     name << worksheet[row, col]
   end
 end
-
-session = GoogleDrive::Session.from_config("config.json")
-puts session
-
-worksheet = session.spreadsheet_by_key("1lI5GMwYa1ruXugvAERMJVJO4pX5RY69DCJxR4b0zDuI").worksheets[0]
 
 winners1 = []
 winners2 = []
@@ -30,78 +48,19 @@ create_json_arrays(winners1, 3, worksheet)
 create_json_arrays(winners2, 4, worksheet)
 create_json_arrays(losers1, 5, worksheet)
 create_json_arrays(losers2, 6, worksheet)
-locations = locations.sort_by_frequency
-winners1 = winners1.sort_by_frequency
-winners2 = winners2.sort_by_frequency
-losers1 = losers1.sort_by_frequency
-losers2 = losers2.sort_by_frequency
-sorted_locations = []
-sorted_winners1 = []
-sorted_winners2 = []
-sorted_losers1 = []
-sorted_losers2 = []
 
-i = 0
-locations.reverse_each do |x|
-  if sorted_locations.empty?
-    sorted_locations << x
-  elsif x != sorted_locations[i] 
-    sorted_locations << x
-    i += 1
-  end
-end
+locations = sort_arrays_by_frequency(locations)
+winners1 = sort_arrays_by_frequency(winners1)
+winners2 = sort_arrays_by_frequency(winners2)
+losers1 = sort_arrays_by_frequency(losers1)
+losers2 = sort_arrays_by_frequency(losers2)
 
-i = 0
-winners1.reverse_each do |x|
-  if sorted_winners1.empty?
-    sorted_winners1 << x
-  elsif x != sorted_winners1[i] 
-    sorted_winners1 << x
-    i += 1
-  end
-end
+locations = sort_arrays(locations)
+winners1 = sort_arrays(winners1)
+winners2 = sort_arrays(winners2)
+losers1 = sort_arrays(losers1)
+losers2 = sort_arrays(losers2)
 
-i = 0
-winners2.reverse_each do |x|
-  if sorted_winners2.empty?
-    sorted_winners2 << x
-  elsif x != sorted_winners2[i] 
-    sorted_winners2 << x
-    i += 1
-  end
-end
-
-i = 0
-losers1.reverse_each do |x|
-  if sorted_losers1.empty?
-    sorted_losers1 << x
-  elsif x != sorted_losers1[i] 
-    sorted_losers1 << x
-    i += 1
-  end
-end
-
-i = 0
-losers2.reverse_each do |x|
-  if sorted_losers2.empty?
-    sorted_losers2 << x
-  elsif x != sorted_losers2[i] 
-    sorted_losers2 << x
-    i += 1
-  end
-end
-
-puts sorted_locations
-puts
-puts sorted_winners1
-puts
-puts sorted_winners2
-puts
-puts sorted_losers1
-puts
-puts sorted_losers2
-
-#
 #         # Yet another way to do so.
 #         p ws.rows  #==> [["fuga", ""], ["foo", "bar]]
 #
@@ -109,25 +68,24 @@ puts sorted_losers2
 #         ws.reload
 
 File.open('./data/locations.json', 'w') do |f|
-  f.puts sorted_locations.to_json
+  f.puts locations.to_json
 end
 
 File.open('./data/winners1.json', 'w') do |f|
-  f.puts sorted_winners1.to_json
+  f.puts winners1.to_json
 end
 
 File.open('./data/winners2.json', 'w') do |f|
-  f.puts sorted_winners2.to_json
+  f.puts winners2.to_json
 end
 
 
 File.open('./data/losers1.json', 'w') do |f|
-  f.puts sorted_losers1.to_json
+  f.puts losers1.to_json
 end
 
 File.open('./data/losers2.json', 'w') do |f|
-  f.puts sorted_losers2.to_json
+  f.puts losers2.to_json
 end
-
 
 worksheet.save
