@@ -1,31 +1,27 @@
 require "google_drive"
 require "json"
 
-session = GoogleDrive::Session.from_config("config.json")
-puts session
+class BeachSeason
+  attr_accessor :players
 
-worksheet = session.spreadsheet_by_key("1lI5GMwYa1ruXugvAERMJVJO4pX5RY69DCJxR4b0zDuI").worksheets[0]
+  def initialize
+    session = GoogleDrive::Session.from_config("config.json")
+    puts session
+    @games_sheet = session.spreadsheet_by_key("1lI5GMwYa1ruXugvAERMJVJO4pX5RY69DCJxR4b0zDuI").worksheets[0]
+    @players = []
+  end
 
-def sort_arrays(name) 
-  i = 0
-  sorted_name = []
-  name.reverse_each do |x|
-    if sorted_name.empty?
-      sorted_name << x
-    elsif x != sorted_name[i] 
-      sorted_name << x
-      i += 1
+  def build_players_database
+    (1..@games_sheet.num_rows).each do |row|
+      (3..@games_sheet.num_cols).each do |col|
+        if !@players.include?(@games_sheet[row,col])
+          @players << @games_sheet[row,col] 
+        end
+      end
     end
   end
-  return sorted_name
-end
 
-def sort_arrays_by_frequency(name)
-  name = name.sort_by_frequency
 end
-
-def create_json_arrays(name, col, worksheet)
-  (1..worksheet.num_rows).each do |row|
-    name << worksheet[row, col]
-  end
-end
+season_2017 = BeachSeason.new
+season_2017.build_players_database
+puts season_2017.players
