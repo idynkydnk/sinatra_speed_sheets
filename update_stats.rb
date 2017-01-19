@@ -59,10 +59,11 @@ class BeachSeason
     minimum_number_of_games = 5
     (1..@team_stats_sheet.num_rows).each do |row|
       if @team_stats_sheet[row, 6] >= minimum_number_of_games.to_s
-        top_teams << [@team_stats_sheet[row, 5], @team_stats_sheet[row, 6], row, @team_stats_sheet[row, 1], @team_stats_sheet[row, 2]]
+        top_teams << [@team_stats_sheet[row, 5], @team_stats_sheet[row, 6], row]
       end 
     end
     top_teams.sort!.reverse!
+    top_teams = top_teams.select.each_with_index { |_, i| i.odd? }
     row = 1
     top_teams.each do |team_row|
       (1..@team_stats_sheet.num_cols).each do |col|
@@ -130,7 +131,8 @@ class BeachSeason
   
 
 end
+
 season_2017 = BeachSeason.new
 season_2017.build_players_database
-#season_2017.build_team_stats
+season_2017.build_team_stats
 season_2017.build_top_teams
