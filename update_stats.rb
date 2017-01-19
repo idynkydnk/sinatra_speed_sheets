@@ -20,6 +20,7 @@ class BeachSeason
     @team_stats_sheet = @session.spreadsheet_by_key(@key).worksheets[2]
     @top_teams_sheet = @session.spreadsheet_by_key(@key).worksheets[4]
     @players = []
+    @name_and_stats = []
   end
 
   def remove_duplicates(duplicates)
@@ -50,7 +51,6 @@ class BeachSeason
     team_stats_col_1
     team_stats_col_2
     team_stats_wins_and_losses
-    
     @team_stats_sheet.save
   end
 
@@ -72,6 +72,44 @@ class BeachSeason
       row += 1
     end
     @top_teams_sheet.save
+  end
+
+  def build_stats
+    @players.each_with_index do |player, index|
+      wins = 0
+      losses = 0
+      @name_and_stats << []
+      @name_and_stats[index] << player
+      (1..@games_sheet.num_rows).each do |row|
+        (3..6).each do |col|
+          if col < 5
+            if @games_sheet[row, col] == player
+              wins += 1
+            end
+          else
+            if @games_sheet[row, col] == player
+              losses += 1
+            end
+          end
+        end
+      end
+      @name_and_stats[index] << wins
+      @name_and_stats[index] << losses
+    end
+    puts @players.length
+    puts @name_and_stats.to_s
+    @players.each_with_index do |player,row|
+      row += 1
+      (1..6).each do |col|
+        if col < 4
+          @stats_sheet[row, col] = @name_and_stats[row-1][col-1]
+        elsif col == 4
+          win_percentage = calc_win_percentage(@name_and_stats[row-1][1], @name_and_stats[row-1][2])
+          @stats_sheet[row, col] = win_percentage
+        end
+      end
+    end
+    @stats_sheet.save
   end
 
   private
@@ -136,3 +174,4 @@ season_2017 = BeachSeason.new
 season_2017.build_players_database
 season_2017.build_team_stats
 season_2017.build_top_teams
+season_2017.build_stats
