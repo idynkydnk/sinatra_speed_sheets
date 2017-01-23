@@ -1,4 +1,7 @@
 <section id="add">
+
+  <div class="myInputs">
+
   <form name="my_form" action="/" method="post">
     <input id="auto-location" autofocus name="location" placeholder="Your location&hellip;" ></input>
     <br><br><br>
@@ -11,8 +14,9 @@
     <input id="auto-loser2" name="loser2" placeholder="Loser second player&hellip;"></input>
     <br><br><br>
     <input type="submit" value="Submit!">
-  
   </form>
+
+  </div>
 
 
 <script src="/js/auto-complete.js"></script> 
@@ -40,8 +44,8 @@
 <% @games.each do |game| %>
   <article>
     <p>
-    <%= game.winner1 %> and <%= game.winner2 %> beat <%= game.loser1 %> and 
-      <%= game.loser2 %> on <%= game.created_at.strftime("%m/%d/%y") %> in  <%= game.location %>
+      <%= game.date.strftime("%m/%d/%y") %> - <%= game.winner1 %> and <%= game.winner2 %> beat <%= game.loser1 %> and 
+      <%= game.loser2 %>
       <span><a href="/<%= game.id %>">[edit]</a></span>
     </p>
   </article>
