@@ -56,18 +56,34 @@ class BeachSeason
 
   def build_top_teams
     top_teams = []
+    temp_top_teams = []
     minimum_number_of_games = 5
     (1..@team_stats_sheet.num_rows).each do |row|
       if @team_stats_sheet[row, 6] >= minimum_number_of_games.to_s
-        top_teams << [@team_stats_sheet[row, 5], @team_stats_sheet[row, 6], row]
+        top_teams << [@team_stats_sheet[row, 1], 
+                      @team_stats_sheet[row, 2], 
+                      @team_stats_sheet[row, 3], 
+                      @team_stats_sheet[row, 4],
+                      @team_stats_sheet[row, 5],
+                      @team_stats_sheet[row, 6]]
       end 
     end
-    top_teams.sort!.reverse!
-    top_teams = top_teams.select.each_with_index { |_, i| i.odd? }
+    top_teams.sort_by!{ |x| x[4] }
+    top_teams.reverse!
     row = 1
     top_teams.each do |team_row|
-      (1..@team_stats_sheet.num_cols).each do |col|
-        @top_teams_sheet[row, col] = @team_stats_sheet[team_row[2], col] 
+      temp_top_teams << team_row
+      if temp_top_teams.include?([team_row[1],
+                                team_row[0],
+                                team_row[2],
+                                team_row[3],
+                                team_row[4],
+                                team_row[5]])
+        next
+      end
+
+      (1..top_teams.length).each do |col|
+       @top_teams_sheet[row, col] = team_row[col - 1] 
       end
       row += 1
     end
@@ -96,8 +112,6 @@ class BeachSeason
       @name_and_stats[index] << wins
       @name_and_stats[index] << losses
     end
-    puts @players.length
-    puts @name_and_stats.to_s
     @players.each_with_index do |player,row|
       row += 1
       (1..6).each do |col|
