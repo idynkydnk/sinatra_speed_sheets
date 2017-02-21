@@ -253,7 +253,7 @@ var autolocation = new autoComplete({
   minChars: 0,
   source: function(term, suggest){
     term = term.toLowerCase();
-    var choices = ['Clearwater Beach'];
+    var choices = ['Clearwater Beach', 'Bayhead'];
     var suggestions = [];
     for (i=0;i<choices.length;i++)
       if (~choices[i].toLowerCase().indexOf(term)) suggestions.push(choices[i]);
@@ -268,7 +268,7 @@ var autowinner1 = new autoComplete({
   minChars: 0,
   source: function(term, suggest){
     term = term.toLowerCase();
-    var choices = ["Brian Bowie","Aaron Plumb","Denis Buznea","Kyle Thomson","Kevin Legg","Kurt Frahn","Mike Kuk","Ian Marvel","Dustin Rambo","Brad Wooten"]
+    var choices = ["Brian Bowie","Aaron Plumb","Denis Buznea","Kyle Thomson","Kevin Legg","Kurt Frahn","Ryan Schmidt","Nic Stojak","Mike Kuk","Ian Marvel","Matt Sokolowski","Dustin Rambo","Troy Nowak","Brad Wooten", "Jay Gordon", "Jordan Hendrick", "Nick Vankleeck", "Justin Phipps", "Garrett Peterson", "Trevor Kennan", "Brad Conners"]
 ;
     var suggestions = [];
     for (i=0;i<choices.length;i++)
@@ -284,7 +284,7 @@ var autowinner2 = new autoComplete({
   minChars: 0,
   source: function(term, suggest){
     term = term.toLowerCase();
-    var choices = ["Kyle Thomson","Nic Stojak","Troy Nowak","Mike Kuk","Denis Buznea","Shaun Morissey","Brian Bowie","Matt Sokolowski","Kurt Frahn","Kevin Legg","Dustin Rambo"]
+    var choices = ["Kyle Thomson","Nic Stojak","Troy Nowak","Mike Kuk","Denis Buznea","Shaun Morissey","Brian Bowie","Matt Sokolowski","Kurt Frahn","Kevin Legg","Dustin Rambo","Ryan Schmidt", "Jay Gordon", "Jordan Hendrick", "Nick Vankleeck", "Justin Phipps", "Garrett Peterson", "Trevor Kennan", "Brad Conners"]
 ;
     var suggestions = [];
     for (i=0;i<choices.length;i++)
@@ -298,7 +298,7 @@ var autoloser1 = new autoComplete({
   minChars: 0,
   source: function(term, suggest){
     term = term.toLowerCase();
-    var choices = ["Denis Buznea","Aaron Plumb","Brian Bowie","Ian Marvel","Kurt Frahn","Kevin Legg","Mike Kuk","Matt Sokolowski","Dustin Rambo","Nic Stojak","Kyle Thomson","Brad Wooten"]
+    var choices = ["Denis Buznea","Aaron Plumb","Brian Bowie","Ian Marvel","Kurt Frahn","Kevin Legg","Mike Kuk","Matt Sokolowski","Dustin Rambo","Nic Stojak","Ryan Schmidt","Kyle Thomson","Brad Wooten","Troy Nowak", "Jay Gordon", "Jordan Hendrick", "Nick Vankleeck", "Justin Phipps", "Garrett Peterson", "Trevor Kennan", "Brad Conners"]
 
 ;
     var suggestions = [];
@@ -313,7 +313,7 @@ var autoloser2 = new autoComplete({
   minChars: 0,
   source: function(term, suggest){
     term = term.toLowerCase();
-    var choices = ["Mike Kuk","Troy Nowak","Nic Stojak","Kevin Legg","Shaun Morissey","Kyle Thomson","Kurt Frahn","Brian Bowie","Matt Sokolowski","Dustin Rambo","Denis Buznea","Brad Wooten"]
+    var choices = ["Mike Kuk","Troy Nowak","Nic Stojak","Kevin Legg","Shaun Morissey","Kyle Thomson","Kurt Frahn","Brian Bowie","Matt Sokolowski","Dustin Rambo","Denis Buznea","Ryan Schmidt","Brad Wooten", "Jay Gordon", "Jordan Hendrick", "Nick Vankleeck", "Justin Phipps", "Garrett Peterson", "Trevor Kennan", "Brad Conners"]
 ;
     var suggestions = [];
     for (i=0;i<choices.length;i++)

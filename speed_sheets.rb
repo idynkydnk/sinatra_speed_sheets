@@ -22,7 +22,7 @@ DataMapper.finalize.auto_upgrade!
 
 get '/' do
   @games = Game.all :order => :id.desc
-  get_stats
+  get_todays_stats
   @title = 'All Games'
   erb :home
 end
@@ -43,13 +43,45 @@ post '/' do
   redirect '/'
 end
 
+get '/:id' do
+  @game = Game.get params[:id]
+  @title = "Edit game ##{params[:id]}"
+  erb :edit
+end
+
+put '/:id' do
+  n = Game.get params[:id]
+  n.location = params[:location]
+  n.winner1 = params[:winner1]
+  n.winner2 = params[:winner2]
+  n.loser1 = params[:loser1]
+  n.loser2 = params[:loser2]
+  n.updated_at = Time.now
+  if n.location != "" && n.winner1 != "" && n.winner2 != "" && n.loser1 != "" && n.loser2 != "" 
+    n.save
+  end
+  redirect '/'
+end
+
+get '/:id/delete' do
+  @game = Game.get params[:id]
+  @title = "Confirm deletion of game ##{params[:id]}"
+  erb :delete
+end
+
+delete '/:id' do
+  n = Game.get params[:id]
+  n.destroy
+  redirect '/'
+end
+
 def add_game_to_google_sheets(game)
   puts "adding a game!"
   session = GoogleDrive::Session.from_config("config.json")
   sheet = session.spreadsheet_by_key("1lI5GMwYa1ruXugvAERMJVJO4pX5RY69DCJxR4b0zDuI").worksheets[0]
   next_empty_row = sheet.num_rows + 1
-  time_format = game.date.strftime("%m/%d/%y")
-  sheet[next_empty_row, 1] = time_format
+  formatted_time = game.date.strftime("%m/%d/%y")
+  sheet[next_empty_row, 1] = formatted_time
   sheet[next_empty_row, 2] = game.location
   sheet[next_empty_row, 3] = game.winner1
   sheet[next_empty_row, 4] = game.winner2
@@ -58,7 +90,7 @@ def add_game_to_google_sheets(game)
   sheet.save
 end
 
-def update_database
+def reload_database
   session = GoogleDrive::Session.from_config("config.json")
   sheet = session.spreadsheet_by_key("1lI5GMwYa1ruXugvAERMJVJO4pX5RY69DCJxR4b0zDuI").worksheets[0]
   (1..sheet.num_rows).each do |row|
@@ -66,8 +98,6 @@ def update_database
     date = sheet[row, 1].to_s
     new_date = Time.new(date[6..9], date[0..1], date[3..4])
     x.date = new_date
-    print new_date
-    print " "
     x.location = sheet[row, 2] 
     x.winner1 = sheet[row, 3]
     x.winner2 = sheet[row, 4]
@@ -77,9 +107,15 @@ def update_database
   end 
 end
 
-def get_stats
+def delete_database
+  Game.destroy
+end
+
+def get_todays_stats
   @games.each do |game|
-    puts game.date
+    if game.date.day == Time.now.day
+      puts game
+    end
   end
 end
 
