@@ -57,7 +57,7 @@ class BeachSeason
   def build_top_teams
     top_teams = []
     temp_top_teams = []
-    minimum_number_of_games = 5
+    minimum_number_of_games = 10
     (1..@team_stats_sheet.num_rows).each do |row|
       if @team_stats_sheet[row, 6].to_i >= minimum_number_of_games
         top_teams << [@team_stats_sheet[row, 1], 

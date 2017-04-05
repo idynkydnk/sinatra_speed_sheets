@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'sinatra'
 require 'data_mapper'
 require 'google_drive'
@@ -22,6 +23,9 @@ DataMapper.finalize.auto_upgrade!
 
 get '/' do
   @games = Game.all :order => :id.desc
+  @todays_games = todays_games
+  @todays_players = todays_players
+  puts @todays_players
   get_todays_stats
   @title = 'All Games'
   erb :home
@@ -112,11 +116,35 @@ def delete_database
 end
 
 def get_todays_stats
-  @games.each do |game|
-    if game.date.day == Time.now.day
-      puts game
+  name_and_stats = []
+  @todays_players.each do |player|
+  wins, losses = 0, 0
+    @todays_games.each do |game|
+
+
     end
   end
+end
+
+def todays_games
+  games = []
+  @games.each do |game|
+    if game.date.strftime("%m/%d/%y") == Time.now.strftime("%m/%d/%y")
+      games << game 
+    end
+  end
+  return games
+end
+
+def todays_players
+  players = []
+  @todays_games.each do |game|
+    players << game.winner1 unless players.include?(game.winner1)
+    players << game.winner2 unless players.include?(game.winner2)
+    players << game.loser1 unless players.include?(game.loser1)
+    players << game.loser2 unless players.include?(game.loser2)
+  end
+  return players
 end
 
 
