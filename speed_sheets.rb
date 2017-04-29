@@ -115,7 +115,7 @@ def delete_database
 end
 
 def get_todays_stats
-  name_and_stats = []
+  name_and_stats = [] 
   @todays_players.each do |player|
   wins, losses = 0, 0
     @todays_games.each do |game|
@@ -125,8 +125,10 @@ def get_todays_stats
         losses += 1
       end
     end
-      puts player + " " + wins.to_s + " " + losses.to_s
+    x = { :player => player, :wins => wins, :losses => losses }
+    name_and_stats.push(x)
   end
+  puts name_and_stats
 end
 
 def todays_games
