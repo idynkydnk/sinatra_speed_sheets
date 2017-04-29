@@ -25,7 +25,6 @@ get '/' do
   @games = Game.all :order => :id.desc
   @todays_games = todays_games
   @todays_players = todays_players
-  puts @todays_players
   get_todays_stats
   @title = 'All Games'
   erb :home
@@ -120,9 +119,13 @@ def get_todays_stats
   @todays_players.each do |player|
   wins, losses = 0, 0
     @todays_games.each do |game|
-
-
+      if player == game.winner1 || player == game.winner2
+        wins += 1
+      elsif player == game.loser1 || player == game.loser2
+        losses += 1
+      end
     end
+      puts player + " " + wins.to_s + " " + losses.to_s
   end
 end
 

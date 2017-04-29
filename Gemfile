@@ -5,4 +5,4 @@ gem "data_mapper"
 gem "google_drive"
 gem "json"
 gem "dm-sqlite-adapter"
-
+gem 'rack', '<2.0'
