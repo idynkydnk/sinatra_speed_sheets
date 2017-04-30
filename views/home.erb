@@ -41,6 +41,14 @@
 
 </section>
 
+<% @todays_stats.each do |stat| %>
+  <article>
+    <p>
+      <%= stat[:player] %> - <%= stat[:wins] %>-<%= stat[:losses] %>
+    </p>
+  </article>
+<% end %>
+
 <% @games.each do |game| %>
   <article>
     <p>

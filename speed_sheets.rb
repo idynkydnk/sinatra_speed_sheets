@@ -23,9 +23,7 @@ DataMapper.finalize.auto_upgrade!
 
 get '/' do
   @games = Game.all :order => :id.desc
-  @todays_games = todays_games
-  @todays_players = todays_players
-  get_todays_stats
+  @todays_stats = todays_stats
   @title = 'All Games'
   erb :home
 end
@@ -114,11 +112,13 @@ def delete_database
   Game.destroy
 end
 
-def get_todays_stats
+def todays_stats
   name_and_stats = [] 
-  @todays_players.each do |player|
+  games = todays_games
+  players = todays_players(games)
+  players.each do |player|
   wins, losses = 0, 0
-    @todays_games.each do |game|
+    games.each do |game|
       if player == game.winner1 || player == game.winner2
         wins += 1
       elsif player == game.loser1 || player == game.loser2
@@ -128,7 +128,7 @@ def get_todays_stats
     x = { :player => player, :wins => wins, :losses => losses }
     name_and_stats.push(x)
   end
-  puts name_and_stats
+  return name_and_stats
 end
 
 def todays_games
@@ -141,9 +141,9 @@ def todays_games
   return games
 end
 
-def todays_players
+def todays_players(games)
   players = []
-  @todays_games.each do |game|
+  games.each do |game|
     players << game.winner1 unless players.include?(game.winner1)
     players << game.winner2 unless players.include?(game.winner2)
     players << game.loser1 unless players.include?(game.loser1)

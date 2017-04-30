@@ -129,6 +129,7 @@ DEPENDENCIES
   dm-sqlite-adapter
   google_drive
   json
+  rack (< 2.0)
   shotgun
   sinatra
 
